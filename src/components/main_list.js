@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./style/main_list.css";
 
+
 import Data_list from "./data_list";
 
 export class Main_list extends Component {
