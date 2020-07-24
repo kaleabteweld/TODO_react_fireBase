@@ -1,0 +1,17 @@
+#add_todo{
+
+    position: fixed;
+
+    width: 70px;
+    height: 70px;
+
+    top: calc(95% - 70px);
+    left: calc(50% - 70px/2);
+    
+    border-radius: 11rem;
+
+    margin: auto;
+    margin-top: 10px;
+
+    cursor: pointer;
+}
