@@ -1,78 +1,101 @@
 import React, { Component } from "react";
 import "./style/main_list.css";
 
+import $ from "jquery";
 
 import Data_list from "./data_list";
 
-export class Main_list extends Component {
+import fireDB from "../fireBase/fire_base_init";
+
+class Main_list extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      id: "",
-      data: "",
-      done: false,
-      edit: false,
-      remove: false,
+      items: [],
     };
   }
 
-  data = {
-    vbegqigfygerw: {
-      data: "hi",
-      done: false,
-    },
-    "re;njreangjr": {
-      data: "hey",
-      done: false,
-    },
-    dsalhcvwehv: {
-      data: "sup",
-      done: false,
-    },
-  };
+  user_id = "fpFJo7RTdugJ6qK8e7WlPhEPcHr2";
+  items = [];
 
-  doneCH = () => {
-    this.data[this.state.id].done = this.state.done ? true : false;
-    console.log("********** Data Updata doneCH ****************");
-    console.log(this.data);
-    console.log("**************************************");
-  };
-  editCh = () => {
-    this.data[this.state.id].data = this.state.data;
-    console.log("********** Data Updata editCh****************");
-    console.log(this.data);
-    console.log("**************************************");
-  };
+  componentDidMount() {
+    fireDB
+      .collection("user_interction")
+      .doc(this.user_id)
+      .collection("ToDo")
+      .orderBy("time")
+      .onSnapshot((sanp) => {
+        let Changes = sanp.docChanges();
 
-  ch = () => {
-    this.data["vbegqigfygerw"].data = "vlbeqriubiufgqewufwei";
-    this.setState({
-      id: "vbegqigfygerw",
-      data: "vlbeqriubiufgqewufwei",
-    });
-    console.log("********** Data Updata editCh****************");
-    console.log(this.data);
-    console.log("**************************************");
+        Changes.forEach((chage) => {
+          //console.log(chage.doc.data());
+          if (chage.type == "added") {
+            this.items.push({
+              id: chage.doc.id,
+              ToDo: chage.doc.data().ToDo,
+              done_percentage:
+                chage.doc.data().done_percentage == 0 ? false : true,
+            });
+
+            this.setState({
+              items: this.items,
+            });
+          }
+          if (chage.type == "modified") {
+            console.log(chage.doc.data()["ToDo"]);
+
+            let index = this.state.items.findIndex(
+              (items) => String(items.id) == String(chage.doc.id)
+            );
+            console.log("chage index: " + index);
+
+            let temp = this.state.items;
+            temp[index].done_percentage = chage.doc.data()["done_percentage"];
+            this.setState({
+              items: temp,
+            });
+          }
+        });
+      });
+  }
+
+  doneCH = (id, index, Done) => {
+    let temp = this.state.items;
+    temp[index].done_percentage = Done;
+
+    console.log("new stat");
+    console.log(temp);
+    this.setState(
+      {
+        items: temp,
+      },
+      () => {
+        fireDB
+          .collection("user_interction")
+          .doc(this.user_id)
+          .collection("ToDo")
+          .doc(id)
+          .update({
+            done_percentage: Done ? "100" : "0",
+          });
+      }
+    );
   };
 
   render() {
-    console.log("main_list render");
     return (
       <div className="fouces">
-        {Object.keys(this.data).map((index) => (
+        {this.state.items.map((data, index) => (
           <Data_list
-            parent={this}
-            key={index}
-            ID={index}
-            data={this.data[String(index)].data}
-            done={this.data[String(index)].done}
+            key={this.state.items[index].id}
+            ID={this.state.items[index].id}
+            index={index}
+            data={this.state.items[index].ToDo}
+            done={this.state.items[index].done_percentage}
             doneCH={this.doneCH}
-            editCh={this.editCh}
           />
         ))}
-
-        <button onClick={this.ch}>change</button>
       </div>
     );
   }
