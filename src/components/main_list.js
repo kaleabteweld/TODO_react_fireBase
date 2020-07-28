@@ -13,12 +13,14 @@ class Main_list extends Component {
 
     this.state = {
       items: [],
+      loding: true,
     };
   }
 
   user_id = "fpFJo7RTdugJ6qK8e7WlPhEPcHr2";
   items = [];
 
+  // add todo's to ui
   componentDidMount() {
     fireDB
       .collection("user_interction")
@@ -31,6 +33,12 @@ class Main_list extends Component {
         Changes.forEach((chage) => {
           //console.log(chage.doc.data());
           if (chage.type == "added") {
+            if (this.state.loding) {
+              this.setState({
+                loding: false,
+              });
+            }
+
             this.items.push({
               id: chage.doc.id,
               ToDo: chage.doc.data().ToDo,
@@ -42,30 +50,15 @@ class Main_list extends Component {
               items: this.items,
             });
           }
-          if (chage.type == "modified") {
-            console.log(chage.doc.data()["ToDo"]);
-
-            let index = this.state.items.findIndex(
-              (items) => String(items.id) == String(chage.doc.id)
-            );
-            console.log("chage index: " + index);
-
-            let temp = this.state.items;
-            temp[index].done_percentage = chage.doc.data()["done_percentage"];
-            this.setState({
-              items: temp,
-            });
-          }
         });
       });
   }
 
+  // fireDB eidt
   doneCH = (id, index, Done) => {
     let temp = this.state.items;
     temp[index].done_percentage = Done;
 
-    console.log("new stat");
-    console.log(temp);
     this.setState(
       {
         items: temp,
@@ -82,22 +75,76 @@ class Main_list extends Component {
       }
     );
   };
+  editCh = (id, index, Date) => {
+    let temp = this.state.items;
+    temp[index].ToDo = Date;
+    this.setState(
+      {
+        items: temp,
+      },
+      () => {
+        fireDB
+          .collection("user_interction")
+          .doc(this.user_id)
+          .collection("ToDo")
+          .doc(id)
+          .update({
+            ToDo: String(Date),
+          });
+      }
+    );
+  };
+  removeCh = (id, index) => {
+    console.log("removeCh: " + id);
+    console.log("removeCh index: " + index);
+
+    let temp = this.state.items;
+
+    if (temp[index] != undefined) {
+      temp.pop(index);
+      this.setState(
+        {
+          items: temp,
+        },
+        () => {
+          fireDB
+            .collection("user_interction")
+            .doc(this.user_id)
+            .collection("ToDo")
+            .doc(String(id))
+            .delete();
+        }
+      );
+    }
+  };
 
   render() {
-    return (
-      <div className="fouces">
-        {this.state.items.map((data, index) => (
-          <Data_list
-            key={this.state.items[index].id}
-            ID={this.state.items[index].id}
-            index={index}
-            data={this.state.items[index].ToDo}
-            done={this.state.items[index].done_percentage}
-            doneCH={this.doneCH}
-          />
-        ))}
-      </div>
-    );
+    if (this.state.loding) {
+      return (
+        <div className="loader-wrapper">
+          <span className="loader">
+            <span className="loader-inner"></span>
+          </span>
+        </div>
+      );
+    } else {
+      return (
+        <div className="fouces">
+          {this.state.items.map((data, index) => (
+            <Data_list
+              key={this.state.items[index].id}
+              ID={this.state.items[index].id}
+              index={index}
+              data={this.state.items[index].ToDo}
+              done={this.state.items[index].done_percentage}
+              doneCH={this.doneCH}
+              editCh={this.editCh}
+              removeCh={this.removeCh}
+            />
+          ))}
+        </div>
+      );
+    }
   }
 }
 

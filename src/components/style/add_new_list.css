@@ -1,17 +1,58 @@
-#add_todo{
+#add_todo {
+  position: fixed;
 
-    position: fixed;
+  width: 70px;
+  height: 70px;
 
-    width: 70px;
-    height: 70px;
+  top: calc(95% - 70px);
+  left: calc(50% - 70px / 2);
 
-    top: calc(95% - 70px);
-    left: calc(50% - 70px/2);
-    
-    border-radius: 11rem;
+  border-radius: 11rem;
 
-    margin: auto;
-    margin-top: 10px;
+  margin: auto;
+  margin-top: 10px;
 
-    cursor: pointer;
+  cursor: pointer;
+}
+
+#new {
+  position: fixed;
+
+  display: flex;
+  flex-direction: column;
+
+  z-index: 2;
+
+  width: 70vw;
+  height: 300px;
+
+  top: calc(177% - 300px);
+  /* top: calc(186% - 500px); */
+  left: calc(50% - 70vw / 2);
+
+  background-color: #484750;
+
+  border-radius: 10px 10px 0px 0;
+}
+#new .Nav {
+  display: flex;
+  justify-content: space-around;
+  height: 40px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+#new .Nav > button {
+}
+#new #us_text {
+  width: 90%;
+  height: 50%;
+
+  border-radius: 23px;
+  margin: auto;
+  margin-top: 20px;
+  margin-top: 45px;
+
+  background-color: #333144;
+  border: 2px yellow solid;
+  color: yellow;
 }

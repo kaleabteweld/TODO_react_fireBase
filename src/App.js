@@ -1,24 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
-import Nav from "./components/nav"
-import Main_list from "./components/main_list"
-import Add_new_list from "./components/add_new_list"
+import Nav from "./components/nav";
+import LogIn from "./components/logIn";
 
+import Root from "./components/root";
+import { BrowserRouter, Route } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function App() {
   return (
-
-      <React.Fragment>    
-      
+    <React.Fragment>
+      <BrowserRouter>
         <Nav />
-        <Main_list />
-        <Add_new_list />
-
-      </React.Fragment>
-
-
+        <Route exact path="/" component={LogIn} />
+        <Route exact path="/logIn" component={LogIn} />
+        <Route exact path="/signIn" component={LogIn} />
+        <Route exact path="/home" component={Root} />
+      </BrowserRouter>
+    </React.Fragment>
   );
 }
 
