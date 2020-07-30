@@ -56,6 +56,15 @@ body {
   color: #2e8fa2 !important;
 }
 
+.main #form button {
+  border-radius: 11rem;
+  margin: 10px;
+}
+.main #form a {
+  border-radius: 11rem;
+  margin: 10px;
+}
+
 .main #other {
   display: flex;
   justify-content: space-evenly;

@@ -1,41 +1,42 @@
+.top {
+  margin-bottom: 5px;
+  margin-top: 10px;
 
-.top{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
 
-    margin-bottom: 5px;
-    margin-top: 10px;
-
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-
-    width: 100%;
-    height: 50px;
-
+  width: 100%;
+  height: 50px;
 }
-.top > p{
+.top > p {
+  margin: auto;
+  margin-left: 10px;
+  margin-bottom: 5px;
 
-    margin: auto;
-    margin-left: 10px;
-    margin-bottom: 5px;
-
-    font-size: 32px;
-    font-weight: 500;
-    color: #c324ff;
-
+  font-size: 32px;
+  font-weight: 500;
+  color: #c324ff;
 }
-.top .user #us_pic{
+.top .user #us_pic {
+  width: 50px;
+  height: 50px;
 
-    width: 40px;
-    height: 40px;
+  border: solid #5e4bf4 2px;
+  padding: 3px;
 
-    border: solid #5e4bf4 2px;
-    padding: 3px;
+  border-radius: 50%;
 
-    border-radius: 50%;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
 
-    margin-bottom: 10px;
-    margin-right: 10px;
-    margin-top: 10px;
-
-    
+  background-color: transparent !important;
+}
+.dropleft .dropdown-toggle::before {
+  display: none;
+}
+.top .user #us_pic img {
+  width: 40px;
+  height: 40px;
 }

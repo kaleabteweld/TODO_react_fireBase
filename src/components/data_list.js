@@ -23,7 +23,7 @@ class Data_list extends Component {
   }
 
   componentDidMount() {
-    let user_id = "fpFJo7RTdugJ6qK8e7WlPhEPcHr2";
+    let user_id = this.props.userId;
 
     fireDB
       .collection("user_interction")

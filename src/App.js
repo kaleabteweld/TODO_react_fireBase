@@ -1,24 +1,32 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
 import Nav from "./components/nav";
 import LogIn from "./components/logIn";
-
+import SignIn from "./components/signIn";
 import Root from "./components/root";
+import { FireAuth } from "./fireBase/fire_base_auto";
+
+import { ToDoContext, ToDoContextProvider } from "./components/ToDoContext";
+
 import { BrowserRouter, Route } from "react-router-dom";
 import { Link, NavLink } from "react-router-dom";
 
 function App() {
   return (
     <React.Fragment>
-      <BrowserRouter>
-        <Nav />
-        <Route exact path="/" component={LogIn} />
-        <Route exact path="/logIn" component={LogIn} />
-        <Route exact path="/signIn" component={LogIn} />
-        <Route exact path="/home" component={Root} />
-      </BrowserRouter>
+      <ToDoContextProvider>
+        <FireAuth />
+        <BrowserRouter>
+          <Nav />
+
+          <Route exact path="/" component={LogIn} />
+          <Route exact path="/logIn" component={LogIn} />
+          <Route exact path="/signIn" component={SignIn} />
+          <Route exact path="/home" component={Root} />
+        </BrowserRouter>
+      </ToDoContextProvider>
     </React.Fragment>
   );
 }
