@@ -2,7 +2,7 @@ import React, { Component, useContext, useState } from "react";
 import { fireAuth } from "../fireBase/fire_base_auto";
 import "./style/logIn.css";
 
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 import $ from "jquery";
 
@@ -120,9 +120,9 @@ function LogIn() {
           >
             Log In
           </button>
-          <a className="btn btn btn-primary" href="/signIn">
+          <Link to="/signIn" className="btn btn btn-primary">
             Sign Up
-          </a>
+          </Link>
         </form>
       </div>
     );

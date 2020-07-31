@@ -85,7 +85,7 @@ function Main_list() {
   let removeCh = (id, index) => {
     let temp = items;
 
-    if (temp[index] != undefined) {
+    if (String(temp[index].id) == id) {
       fireDB
         .collection("user_interction")
         .doc(user_id)
@@ -93,7 +93,6 @@ function Main_list() {
         .doc(String(id))
         .delete();
 
-      temp.pop(index);
       const newList = temp.filter((item) => String(item.id) !== String(id));
       setitems(newList);
     }
